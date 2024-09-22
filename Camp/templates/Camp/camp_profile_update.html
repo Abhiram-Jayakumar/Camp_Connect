@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Camp Profile</title>
+    <!-- Bootstrap CSS -->
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
+                    style="text-transform: uppercase;">Camp_Connect</b></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav" style="text-transform: uppercase;">
+                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
+                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
+                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
+                    <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
+                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
+                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
+                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
+                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
+                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
+                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
+                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="mb-4">Update Camp Profile for {{ camp_profile.camp_name }}</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="camp_name" class="form-label">Camp Name:</label>
+                <input type="text" class="form-control" id="camp_name" name="camp_name" value="{{ camp_profile.camp_name }}">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <textarea class="form-control" id="description" name="description">{{ camp_profile.description }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="camp_type" class="form-label">Camp Type:</label>
+                <select class="form-control" id="camp_type" name="camp_type">
+                    {% for type, label in camp_profile.CAMP_TYPE_CHOICES %}
+                        <option value="{{ type }}" {% if type == camp_profile.camp_type %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="operating_hours" class="form-label">Operating Hours:</label>
+                <input type="text" class="form-control" id="operating_hours" name="operating_hours" value="{{ camp_profile.operating_hours }}">
+            </div>
+            <div class="mb-3">
+                <label for="contact_phone" class="form-label">Contact Phone:</label>
+                <input type="text" class="form-control" id="contact_phone" name="contact_phone" value="{{ camp_profile.contact_phone }}">
+            </div>
+            <div class="mb-3">
+                <label for="contact_email" class="form-label">Contact Email:</label>
+                <input type="email" class="form-control" id="contact_email" name="contact_email" value="{{ camp_profile.contact_email }}">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address:</label>
+                <textarea class="form-control" id="address" name="address">{{ camp_profile.address }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label">Location:</label>
+                <input type="text" class="form-control" id="location" name="location" value="{{ camp_profile.location }}">
+            </div>
+            <div class="mb-3">
+                <label for="pricing_info" class="form-label">Pricing Info:</label>
+                <textarea class="form-control" id="pricing_info" name="pricing_info">{{ camp_profile.pricing_info }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="social_media_facebook" class="form-label">Facebook:</label>
+                <input type="url" class="form-control" id="social_media_facebook" name="social_media_facebook" value="{{ camp_profile.social_media_facebook }}">
+            </div>
+            <div class="mb-3">
+                <label for="social_media_twitter" class="form-label">Twitter:</label>
+                <input type="url" class="form-control" id="social_media_twitter" name="social_media_twitter" value="{{ camp_profile.social_media_twitter }}">
+            </div>
+            <div class="mb-3">
+                <label for="social_media_instagram" class="form-label">Instagram:</label>
+                <input type="url" class="form-control" id="social_media_instagram" name="social_media_instagram" value="{{ camp_profile.social_media_instagram }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Update Profile</button>
+            <a href="{% url 'Camp:camp_profile' %}" class="btn btn-secondary ml-2">Cancel</a>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Footer -->
+<footer class="text-center bg-body-tertiary">
+    <!-- Grid container -->
+    <div class="container pt-4">
+      <!-- Section: Social media -->
+      <section class="mb-4">
+        <!-- Facebook -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-facebook-f"></i
+        ></a>
+  
+        <!-- Twitter -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-twitter"></i
+        ></a>
+  
+        <!-- Google -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-google"></i
+        ></a>
+  
+        <!-- Instagram -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-instagram"></i
+        ></a>
+  
+        <!-- Linkedin -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <!-- Github -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-github"></i
+        ></a>
+      </section>
+      <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+  
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2024 Copyright:
+      <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+</body>
+</html>

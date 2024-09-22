@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery for {{ camp.name }}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-img-top {
+            object-fit: cover;
+            height: 200px;
+        }
+        .card-body {
+            text-align: center;
+        }
+        .gallery-container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'User:User_home' %}"><b style="text-transform: uppercase;">Camp_Connect</b></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav" style="text-transform: uppercase;">
+                    <a class="nav-link" href="{% url 'User:User_home' %}">Home</a>
+                    <a class="nav-link" href="{% url 'User:view_profile' %}">Profile</a>
+                    <a class="nav-link" href="{% url 'User:view_all_packages' %}">Packages</a>
+                    <a class="nav-link" href="{% url 'User:view_bookings' %}">View-Bookings</a>
+                    <a class="nav-link" href="{% url 'User:submit_complaint' %}">Complaint-File</a>
+                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container gallery-container mt-4">
+        <h1 class="mb-4">Gallery for {{ camp.camp_name }}</h1>
+        
+        <div class="row">
+            {% for image in images %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ image.image.url }}" class="card-img-top" alt="Image">
+                        <div class="card-body">
+                            <h5 class="card-title">Image {{ forloop.counter }}</h5>
+                            <p class="card-text">{{ image.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        No images available in this gallery.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <a href="{% url 'User:view_all_packages' %}" class="btn btn-primary mt-4">Back to All Packages</a>
+    </div>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

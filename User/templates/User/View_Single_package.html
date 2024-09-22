@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Package</title>
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-center {
+            max-width: 800px;
+            margin: auto;
+        }
+        .img-left {
+            max-width: 100%;
+            height: auto;
+        }
+        .btn.hidden {
+            display: none;
+        }
+        .gallery img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'User:User_home' %}"><b style="text-transform: uppercase;">Camp_Connect</b></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav" style="text-transform: uppercase;">
+                    <a class="nav-link active" aria-current="page" href="{% url 'User:User_home' %}">Home</a>
+                    <a class="nav-link active" aria-current="page" href="{% url 'User:view_profile' %}">Profile</a>
+                    <a class="nav-link" href="{% url 'User:view_all_packages' %}">Packages</a>
+                    <a class="nav-link" href="{% url 'User:view_bookings' %}">View-Bookings</a>
+                    <a class="nav-link" href="{% url 'User:submit_complaint' %}">Complaint-File</a>
+                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="card card-center">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="{{ package.images.url }}" class="img-left" alt="Package Image">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h2 class="card-title">{{ package.package_name }}</h2>
+                        <p class="card-text"><strong>Description:</strong> {{ package.description }}</p>
+                        <p class="card-text"><strong>Location:</strong> {{ package.location }}</p>
+                        <p class="card-text"><strong>Camp Dates:</strong> {{ package.camp_start_date }} to {{ package.camp_end_date }}</p>
+                        <p class="card-text"><strong>Booking Dates:</strong> {{ package.booking_start_date }} to {{ package.booking_end_date }}</p>
+                        <p class="card-text"><strong>Max People:</strong> {{ package.max_people }}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ package.price }}</p>
+                        <p class="card-text"><strong>Availability:</strong> <span id="availabilityStatus">{{ package.availability|yesno:"Available,Not Available" }}</span></p>
+                        <h3>Facilities Provided:</h3>
+                        <ul>
+                            {% for facility in package.facilities_provided.all %}
+                                <li>{{ facility.facility_name }}</li>
+                            {% endfor %}
+                        </ul>
+
+                        <h3>
+                            <a class="btn btn-info" data-toggle="collapse" href="#campInfo" role="button" aria-expanded="false" aria-controls="campInfo">
+                                Camp Details
+                            </a>
+                        </h3>
+                        <div class="collapse" id="campInfo">
+                            <div class="card card-body">
+                                <p><strong>Camp Name:</strong> {{ camp_profile.camp_name }}</p>
+                                <p><strong>Description:</strong> {{ camp_profile.description }}</p>
+                                <p><strong>Type:</strong> {{ camp_profile.camp_type }}</p>
+                                <p><strong>Operating Hours:</strong> {{ camp_profile.operating_hours }}</p>
+                                <p><strong>Camp Provider Name:</strong> {{ camp_provider_name }}</p>
+                                <p><strong>Contact Phone:</strong> {{ camp_profile.contact_phone }}</p>
+                                <p><strong>Contact Email:</strong> {{ camp_profile.contact_email }}</p>
+                                <p><strong>Address:</strong> {{ camp_profile.address }}</p>
+                                <p><strong>Location:</strong> {{ camp_profile.location }}</p>
+                                <p><strong>Pricing Info:</strong> {{ camp_profile.pricing_info }}</p>
+                                <p><strong>Social Media:</strong></p>
+                                <!-- Display feedbacks -->
+                                <h3>Feedbacks:</h3>
+                                <div class="feedbacks">
+                                    {% for feedback in feedbacks %}
+                                    <div class="feedback">
+                                        <p><strong>{{ feedback.user.username }}:</strong> {{ feedback.comment }}</p>
+                                        <p>Rating: {{ feedback.rating }}</p>
+                                        <p><small>{{ feedback.created_at|date:"d M Y, H:i" }}</small></p>
+                                        <hr>
+                                    </div>
+                                    {% empty %}
+                                    <p>No feedbacks available for this package.</p>
+                                    {% endfor %}
+                                </div>
+                                <ul class="list-inline">
+                                    {% if camp_profile.social_media_facebook %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ camp_profile.social_media_facebook }}" target="_blank" title="Facebook">
+                                                <i class="fa-brands fa-facebook fa-2x"></i>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if camp_profile.social_media_twitter %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ camp_profile.social_media_twitter }}" target="_blank" title="Twitter">
+                                                <i class="fa-brands fa-twitter fa-2x"></i>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if camp_profile.social_media_instagram %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ camp_profile.social_media_instagram }}" target="_blank" title="Instagram">
+                                                <i class="fa-brands fa-instagram fa-2x"></i>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+
+                                <a href="{% url 'User:camp_gallery' camp.id %}" class="btn btn-secondary mt-3">View Gallery</a>
+                            </div>
+                        </div>
+
+                        <a href="{% url 'User:view_all_packages' %}" class="btn btn-primary mt-3">Back to All Packages</a>
+                        <a href="{% url 'User:book_package' package.id %}" class="btn btn-success mt-3 book-now-btn" data-booking-end-date="{{ package.booking_end_date|date:'Y-m-d' }}">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentDate = new Date();
+            
+            // Update availability status
+            const availabilityStatus = document.getElementById('availabilityStatus');
+            const bookingEndDate = new Date(document.querySelector('.book-now-btn').getAttribute('data-booking-end-date'));
+            
+            if (currentDate > bookingEndDate) {
+                availabilityStatus.textContent = 'Not Available';
+                document.querySelector('.book-now-btn').classList.add('hidden');
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer class="text-center bg-body-tertiary">
+        <div class="container pt-4">
+            <section class="mb-4">
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-facebook-f"></i></a>
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-twitter"></i></a>
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-google"></i></a>
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-instagram"></i></a>
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-linkedin"></i></a>
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button" data-mdb-ripple-color="dark"><i class="fab fa-github"></i></a>
+            </section>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2024 Copyright:
+            <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
+        </div>
+    </footer>
+</body>
+</html>

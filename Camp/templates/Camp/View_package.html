@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Package</title>
+    <!-- Bootstrap CSS -->
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
+                    style="text-transform: uppercase;">Camp_Connect</b></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav" style="text-transform: uppercase;">
+                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
+                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
+                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
+                    <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
+                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
+                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
+                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
+                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
+                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
+                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
+                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>{{ package.package_name }}</h2>
+            </div>
+            <div class="card-body">
+                <p><strong>Description:</strong> {{ package.description }}</p>
+                <p><strong>Location:</strong> {{ package.location }}</p>
+                <p><strong>Camp Dates:</strong> {{ package.camp_start_date }} to {{ package.camp_end_date }}</p>
+                <p><strong>Booking Dates:</strong> {{ package.booking_start_date }} to {{ package.booking_end_date }}</p>
+                <p><strong>Max People:</strong> {{ package.max_people }}</p>
+                <p><strong>Price:</strong> ${{ package.price }}</p>
+                <p><strong>Availability:</strong> {{ package.availability|yesno:"Available,Not Available" }}</p>
+                
+                <h3>Facilities Provided:</h3>
+                <ul class="list-group list-group-flush">
+                    {% for facility in package.facilities_provided.all %}
+                        <li class="list-group-item">{{ facility.facility_name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'Camp:view_all_packages' %}" class="btn btn-primary">Back to All Packages</a>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Footer -->
+<footer class="text-center bg-body-tertiary">
+    <!-- Grid container -->
+    <div class="container pt-4">
+      <!-- Section: Social media -->
+      <section class="mb-4">
+        <!-- Facebook -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-facebook-f"></i
+        ></a>
+  
+        <!-- Twitter -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-twitter"></i
+        ></a>
+  
+        <!-- Google -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-google"></i
+        ></a>
+  
+        <!-- Instagram -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-instagram"></i
+        ></a>
+  
+        <!-- Linkedin -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-linkedin"></i
+        ></a>
+        <!-- Github -->
+        <a
+          data-mdb-ripple-init
+          class="btn btn-link btn-floating btn-lg text-body m-1"
+          href="#!"
+          role="button"
+          data-mdb-ripple-color="dark"
+          ><i class="fab fa-github"></i
+        ></a>
+      </section>
+      <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+  
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2024 Copyright:
+      <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+</body>
+</html>
