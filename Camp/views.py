@@ -360,3 +360,37 @@ def profile_view_detailed(request):
     return render(request, 'Camp/camp_profile_detailed_view.html', context)
 
 #///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+def edit_camp_package(request, package_id):
+    camp_id = request.session.get('Cid')
+    if not camp_id:
+        return HttpResponseForbidden("You are not authorized to edit this package.")
+
+    camp = get_object_or_404(Camp, id=camp_id)
+
+    package = get_object_or_404(CampPackage, id=package_id, camp=camp)
+
+    facilities = CampFacility.objects.all()
+
+    if request.method == 'POST':
+        package.package_name = request.POST.get('package_name')
+        package.description = request.POST.get('description')
+        package.location = request.POST.get('location')
+        package.camp_end_date = request.POST.get('camp_end_date')
+        package.booking_end_date = request.POST.get('booking_end_date')
+        package.max_people = request.POST.get('max_people')
+        package.price = request.POST.get('price')
+        package.availability = request.POST.get('availability') == 'on'
+        
+        facilities = request.POST.getlist('facilities')
+        package.facilities_provided.set(facilities)
+
+        if 'image' in request.FILES:
+            package.images = request.FILES['image']
+
+        package.save()
+
+        return redirect('Camp:view_package', package_id=package.id)
+
+    return render(request, 'Camp/edit_package.html', {'package': package,'facilities': facilities})

@@ -23,6 +23,7 @@ urlpatterns = [
         path('profile/<int:camp_id>/change-password/',views. change_camp_password_view, name='change_camp_password'),
         path('profile_update/', views.camp_profile_update_detailed, name='camp_profile_update'),
         path('profile_view_detailed/', views.profile_view_detailed, name='profile_view_detailed'),
+        path('package/<int:package_id>/edit/',views.edit_camp_package, name='edit_package'),
 
 
 ]

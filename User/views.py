@@ -86,7 +86,6 @@ def view_Single_package(request, package_id):
     camp_profile = get_object_or_404(CampProfile, camp=package.camp)
     camp_provider_name = package.camp.camp_provider_name
     
-    # Get feedback for the camp
     feedbacks = Feedback.objects.filter(camp=package.camp).order_by('-created_at')
     
     context = {
