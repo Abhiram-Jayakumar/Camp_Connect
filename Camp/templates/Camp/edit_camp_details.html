@@ -1,69 +1,216 @@
+{% extends "Camp/base.html"%}
+{% block navbar%}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Camp Details</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Bootstrap CSS -->
-    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
-
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #224abe;
+            --light-background: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light-background);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .edit-profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-header i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            border-radius: 25px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(78,115,223,0.25);
+        }
+
+        .input-group-text {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 25px 0 0 25px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(50,50,93,0.1), 0 3px 6px rgba(0,0,0,0.08);
+        }
+
+        .validation-feedback {
+            display: none;
+            color: red;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .edit-profile-container {
+                margin: 20px;
+                width: calc(100% - 40px);
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
-                    style="text-transform: uppercase;">Camp_Connect</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="text-transform: uppercase;">
-                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
-                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
-                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
-                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
-                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
-                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
-                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-4">
-        <h1 class="mb-4">Edit {{ camp.camp_name }} Details</h1>
-        
+    <div class="container edit-profile-container">
         <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user-edit"></i>
+                <h5 class="mb-0">Edit {{ camp.camp_name }} Details</h5>
+            </div>
             <div class="card-body">
-                <form method="POST">
+                <form id="editCampForm" method="POST" novalidate>
                     {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="camp_name" class="form-label">Camp Name</label>
-                        <input type="text" class="form-control" id="camp_name" name="camp_name" value="{{ camp.camp_name }}" required>
+                    
+                    <div class="form-group">
+                        <label for="camp_name" class="form-label">
+                            <i class="fas fa-campground text-primary mr-2"></i>Camp Name
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-tent"></i></span>
+                            </div>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="camp_name" 
+                                   name="camp_name" 
+                                   value="{{ camp.camp_name }}" 
+                                   required 
+                                   minlength="3"
+                                   pattern="[A-Za-z0-9\s]+"
+                                   title="Camp name must be at least 3 characters long and contain only letters, numbers, and spaces">
+                        </div>
+                        <div class="validation-feedback" id="camp_name_feedback">
+                            Please enter a valid camp name
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ camp.email }}" required>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope text-primary mr-2"></i>Email
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-at"></i></span>
+                            </div>
+                            <input type="email" 
+                                   class="form-control" 
+                                   id="email" 
+                                   name="email" 
+                                   value="{{ camp.email }}" 
+                                   required 
+                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                        </div>
+                        <div class="validation-feedback" id="email_feedback">
+                            Please enter a valid email address
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="phone_number" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ camp.phone_number }}" required>
+
+                    <div class="form-group">
+                        <label for="phone_number" class="form-label">
+                            <i class="fas fa-phone text-primary mr-2"></i>Phone Number
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+                            </div>
+                            <input type="tel" 
+                                   class="form-control" 
+                                   id="phone_number" 
+                                   name="phone_number" 
+                                   value="{{ camp.phone_number }}" 
+                                   required 
+                                   pattern="[0-9]{10}"
+                                   title="Phone number must be 10 digits">
+                        </div>
+                        <div class="validation-feedback" id="phone_feedback">
+                            Please enter a valid 10-digit phone number
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="camp_provider_name" class="form-label">Camp Provider Name</label>
-                        <input type="text" class="form-control" id="camp_provider_name" name="camp_provider_name" value="{{ camp.camp_provider_name }}" required>
+
+                    <div class="form-group">
+                        <label for="camp_provider_name" class="form-label">
+                            <i class="fas fa-user-tie text-primary mr-2"></i>Camp Provider Name
+                        </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="camp_provider_name" 
+                                   name="camp_provider_name" 
+                                   value="{{ camp.camp_provider_name }}" 
+                                   required 
+                                   minlength="3"
+                                   pattern="[A-Za-z\s]+"
+                                   title="Provider name must be at least 3 characters long and contain only letters and spaces">
+                        </div>
+                        <div class="validation-feedback" id="provider_feedback">
+                            Please enter a valid provider name
+                        </div>
                     </div>
+
                     <button type="submit" class="btn btn-primary">Save Changes</button>
                 </form>
             </div>
         </div>
-        
+
         <a href="{% url 'Camp:camp_profile' %}" class="btn btn-link mt-4">Back to Profile</a>
     </div>
 
@@ -71,81 +218,138 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Footer -->
+
+    <script>
+        document.getElementById('editCampForm').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Validate Camp Name
+            const campName = document.getElementById('camp_name');
+            if (!campName.checkValidity()) {
+                document.getElementById('camp_name_feedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('camp_name_feedback').style.display = 'none';
+            }
+
+            // Validate Email
+            const email = document.getElementById('email');
+            if (!email.checkValidity()) {
+                document.getElementById('email_feedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('email_feedback').style.display = 'none';
+            }
+
+            // Validate Phone Number
+            const phoneNumber = document.getElementById('phone_number');
+            if (!phoneNumber.checkValidity()) {
+                document.getElementById('phone_feedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('phone_feedback').style.display = 'none';
+            }
+
+            // Validate Provider Name
+            const providerName = document.getElementById('camp_provider_name');
+            if (!providerName.checkValidity()) {
+                document.getElementById('provider_feedback').style.display = 'block';
+                isValid = false;
+            } else {
+                document.getElementById('provider_feedback').style.display = 'none';
+            }
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
+        <!-- Footer -->
 <footer class="text-center bg-body-tertiary">
-    <!-- Grid container -->
-    <div class="container pt-4">
-      <!-- Section: Social media -->
-      <section class="mb-4">
-        <!-- Facebook -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-facebook-f"></i
-        ></a>
-  
-        <!-- Twitter -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-twitter"></i
-        ></a>
-  
-        <!-- Google -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-google"></i
-        ></a>
-  
-        <!-- Instagram -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-instagram"></i
-        ></a>
-  
-        <!-- Linkedin -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-linkedin"></i
-        ></a>
-        <!-- Github -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-github"></i
-        ></a>
-      </section>
-      <!-- Section: Social media -->
-    </div>
-    <!-- Grid container -->
-  
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2024 Copyright:
-      <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
+  <!-- Grid container -->
+  <div class="container pt-4">
+    <!-- Section: Social media -->
+    <section class="mb-4">
+      <!-- Facebook -->
+      <a
+        data-mdb-ripple-init
+        class="btn btn-link btn-floating btn-lg text-body m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="fab fa-facebook-f"></i
+      ></a>
+
+      <!-- Twitter -->
+      <a
+        data-mdb-ripple-init
+        class="btn btn-link btn-floating btn-lg text-body m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="fab fa-twitter"></i
+      ></a>
+
+      <!-- Google -->
+      <a
+        data-mdb-ripple-init
+        class="btn btn-link btn-floating btn-lg text-body m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="fab fa-google"></i
+      ></a>
+
+      <!-- Instagram -->
+      <a
+        data-mdb-ripple-init
+        class="btn btn-link btn-floating btn-lg text-body m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="fab fa-instagram"></i
+      ></a>
+
+      <!-- Linkedin -->
+      <a
+        data-mdb-ripple-init
+        class="btn btn-link btn-floating btn-lg text-body m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="fab fa-linkedin"></i
+      ></a>
+      <!-- Github -->
+      <a
+        data-mdb-ripple-init
+        class="btn btn-link btn-floating btn-lg text-body m-1"
+        href="#!"
+        role="button"
+        data-mdb-ripple-color="dark"
+        ><i class="fab fa-github"></i
+      ></a>
+    </section>
+    <!-- Section: Social media -->
+  </div>
+  <!-- Grid container -->
+
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2024 Copyright:
+    <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+<script>
+  document.querySelector('.navbar-toggler').addEventListener('click', function () {
+    const content = document.getElementById('navbarToggleExternalContent');
+    if (content.classList.contains('show')) {
+      content.classList.remove('show');
+    } else {
+      content.classList.add('show');
+    }
+  });
+</script>
 </body>
 </html>
+{% endblock navbar%}

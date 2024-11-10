@@ -1,3 +1,6 @@
+{% extends "Camp/base.html"%}
+{% block navbar%}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,56 +11,84 @@
     <!-- Bootstrap CSS -->
     <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        /* Profile Card Styling */
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .profile-card img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #4e73df; /* Optional border */
+        }
+
+        .profile-card h5 {
+            color: #4e73df;
+            margin-bottom: 10px;
+        }
+
+        .btn-custom {
+            border-radius: 20px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer Styling */
+        footer {
+            background: linear-gradient(to right, #4e73df, #224abe);
+            color: white;
+            padding: 20px 0;
+        }
+
+        footer .social-icons .btn-link {
+            color: white;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        footer .social-icons .btn-link:hover {
+            transform: scale(1.2);
+            color: #f8f9fa;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
-                    style="text-transform: uppercase;">Camp_Connect</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="text-transform: uppercase;">
-                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
-                    <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
-                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
-                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
-                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
-                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
-                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
-                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
-                </div>
-            </div>
-        </div>
-    </nav>
 
     <div class="container mt-4">
-        <h1 class="mb-4" align="center">Profile-{{ camp.camp_name }} </h1>
+      <h1 class="mb-4 text-center">Profile - {{ camp.camp_name }}</h1>
 
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Camp Provider: {{ camp.camp_provider_name }}</h5>
-                <p class="card-text"><strong>Email:</strong> {{ camp.email }}</p>
-                <p class="card-text"><strong>Phone Number:</strong> {{ camp.phone_number }}</p>
-                <p class="card-text"><strong>Registration Number:</strong> {{ camp.camp_regno }}</p>
-                <p class="card-text"><strong>Date Registered:</strong> {{ camp.date_registered }}</p>
-            </div>
-        </div>
+      <div class="profile-card">
+          <img src="https://i.postimg.cc/hvbM65bY/th.jpg" alt="Profile Image"> <!-- Placeholder for profile image -->
+          <h5 class="card-title">Camp Provider: {{ camp.camp_provider_name }}</h5>
+          <p class="card-text"><strong>Email:</strong> {{ camp.email }}</p>
+          <p class="card-text"><strong>Phone Number:</strong> {{ camp.phone_number }}</p>
+          <p class="card-text"><strong>Registration Number:</strong> {{ camp.camp_regno }}</p>
+          <p class="card-text"><strong>Date Registered:</strong> {{ camp.date_registered }}</p>
+          <div class="mt-4">
+              <a href="{% url 'Camp:edit_camp_details' camp.id %}" class="btn btn-custom btn-primary">Edit Details</a>
+              <a href="{% url 'Camp:change_camp_password' camp.id %}" class="btn btn-custom btn-secondary">Change Password</a>
+          </div>
+      </div>
 
-        <div class="mt-4">
-            <a href="{% url 'Camp:edit_camp_details' camp.id %}" class="btn btn-primary">Edit Details</a>
-            <a href="{% url 'Camp:change_camp_password' camp.id %}" class="btn btn-secondary">Change Password</a>
-        </div>
+      <a href="{% url 'Camp:Camp_home' %}" class="btn btn-link mt-4">Back to Camp Home</a>
+  </div>
 
-        <a href="{% url 'Camp:Camp_home' %}" class="btn btn-link mt-4">Back to Camp Home</a>
-    </div>
 <br><br><br><br><br><br>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -139,6 +170,7 @@
     </div>
     <!-- Copyright -->
   </footer>
+
 </body>
 
-</html>
+</html>  {% endblock navbar%}

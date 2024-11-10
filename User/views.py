@@ -87,13 +87,14 @@ def view_Single_package(request, package_id):
     camp_provider_name = package.camp.camp_provider_name
     
     feedbacks = Feedback.objects.filter(camp=package.camp).order_by('-created_at')
-    
+    stars = [1, 2, 3, 4, 5]
     context = {
         'package': package,
         'camp_profile': camp_profile,
         'camp_provider_name': camp_provider_name,
         'feedbacks': feedbacks,
-        'camp': package.camp
+        'camp': package.camp,
+        'stars': stars,
     }
     
     return render(request, 'User/View_Single_package.html', context)
@@ -285,12 +286,10 @@ def add_feedback(request):
     except User.DoesNotExist:
         return HttpResponseForbidden("User not found.")
     
-    # Retrieve all bookings for the user
     bookings = Booking.objects.filter(user=user)
     if not bookings.exists():
         return HttpResponseForbidden("No bookings found for the user.")
     
-    # Retrieve the list of packages related to the user's bookings
     packages = CampPackage.objects.filter(bookings__in=bookings).distinct()
 
     if request.method == 'POST':
@@ -310,7 +309,6 @@ def add_feedback(request):
                 'error': 'Rating must be an integer between 1 and 5.'
             })
         
-        # Retrieve the package object
         package = get_object_or_404(CampPackage, id=package_id)
         
         Feedback.objects.create(

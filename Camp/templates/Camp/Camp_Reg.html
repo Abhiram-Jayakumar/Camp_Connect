@@ -7,6 +7,113 @@
     <!-- Bootstrap CSS -->
     <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(to right, #4e73df 0%, #224abe 100%) !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .navbar-brand {
+            color: white !important;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+        .nav-link {
+            color: rgba(255,255,255,0.7) !important;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            color: white !important;
+            transform: translateY(-3px);
+        }
+    
+        /* Registration Card Styling */
+        .card {
+            border: none;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+    
+        /* Form Styling */
+        .form-group label {
+            font-weight: 600;
+            color: #4e73df;
+        }
+        .form-control {
+            border-radius: 25px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78,115,223,0.25);
+        }
+    
+        /* Button Styling */
+        .btn-primary {
+            background: linear-gradient(to right, #4e73df 0%, #224abe 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 17px rgba(0,0,0,0.2);
+        }
+    
+        /* Footer Styling */
+        footer {
+            background: linear-gradient(to right, #4e73df 0%, #224abe 100%);
+            color: white;
+            padding: 20px 0;
+        }
+        .social-icons .btn-link {
+            color: white;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        .social-icons .btn-link:hover {
+            transform: scale(1.2) rotate(360deg);
+            color: #f8f9fa;
+        }
+    
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .card {
+                margin: 20px;
+            }
+        }
+    
+        /* Additional Decorative Elements */
+        .card-body::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #4e73df 0%, #224abe 100%);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->

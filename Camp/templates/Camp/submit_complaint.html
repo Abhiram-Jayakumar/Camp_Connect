@@ -1,3 +1,6 @@
+{% extends "Camp/base.html"%}
+{% block navbar%}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,62 +10,119 @@
     <!-- Include Bootstrap CSS -->
     <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 50px;
+        }
+        h2 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        h2 i {
+            margin-right: 15px;
+            color: #f30606;
+        }
+        .form-group label {
+            font-weight: 600;
+            color: #495057;
+            display: flex;
+            align-items: center;
+        }
+        .form-group label i {
+            margin-right: 10px;
+            color: #f30606;
+        }
+        .form-control {
+            border-radius: 8px;
+        }
+        .form-control:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #4e73df, #224abe);
+            border: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .btn-primary i {
+            margin-right: 10px;
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+        .form-control-select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, #f30606 50%), 
+                              linear-gradient(135deg, #f30606 50%, transparent 50%);
+            background-position: calc(100% - 20px) calc(1em + 2px), calc(100% - 15px) calc(1em + 2px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+        }
+    </style>
 </head>
-<body class="bg-light">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
-                    style="text-transform: uppercase;">Camp_Connect</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="text-transform: uppercase;">
-                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
-                    <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
-                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
-                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
-                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
-                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
-                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
-                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Submit a Complaint</h2>
+<body>
+    <div class="container">
+        <h2>
+            <i class="fas fa-exclamation-triangle"></i>
+            Submit a Complaint
+        </h2>
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                <label for="complainant_type">Type of Complainant</label>
-                <select class="form-control" id="complainant_type" name="complainant_type" required>
+                <label for="complainant_type">
+                    <i class="fas fa-user-tag"></i>
+                    Type of Complainant
+                </label>
+                <select class="form-control form-control-select" id="complainant_type" name="complainant_type" required>
                     <option value="User">User</option>
                     <option value="Camp">Camp</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" class="form-control" id="subject" name="subject" required>
+                <label for="subject">
+                    <i class="fas fa-heading"></i>
+                    Subject
+                </label>
+                <input type="text" class="form-control" id="subject" name="subject" 
+                       placeholder="Enter complaint subject" required>
             </div>
             <div class="form-group">
-                <label for="message">Message</label>
-                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                <label for="message">
+                    <i class="fas fa-comment-dots"></i>
+                    Message
+                </label>
+                <textarea class="form-control" id="message" name="message" rows="5" 
+                          placeholder="Describe your complaint in detail" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit Complaint</button>
+            <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-paper-plane"></i>
+                Submit Complaint
+            </button>
         </form>
     </div>
-    <br><br><br><br><br><br>
-    <!-- Include Bootstrap JS and dependencies -->
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Footer -->
 <footer class="text-center bg-body-tertiary">
     <!-- Grid container -->
@@ -139,5 +199,16 @@
     </div>
     <!-- Copyright -->
   </footer>
+<script>
+  document.querySelector('.navbar-toggler').addEventListener('click', function () {
+    const content = document.getElementById('navbarToggleExternalContent');
+    if (content.classList.contains('show')) {
+      content.classList.remove('show');
+    } else {
+      content.classList.add('show');
+    }
+  });
+</script>
 </body>
 </html>
+{% endblock navbar%}

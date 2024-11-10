@@ -1,129 +1,265 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Complaint</title>
-    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
-    <!-- Include Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Complaint</title>
+  <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #dc3545;
+      --secondary-color: #17a2b8;
+      --accent-color: #ffc107;
+      --background-color: #f4f6f9;
+      --text-color: #333;
+    }
+
+    body {
+      background-color: var(--background-color);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text-color);
+    }
+
+    .complaint-container {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      transition: all 0.3s ease;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .complaint-container:hover {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+      transform: translateY(-5px);
+    }
+
+    .complaint-header {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--primary-color);
+    }
+
+    .complaint-header i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+
+    .form-control {
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+    }
+
+    .btn-submit {
+      background: linear-gradient(to right, var(--primary-color), #c82333);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 20px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    .select-wrapper i {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary-color);
+      pointer-events: none;
+    }
+
+    @media (max-width: 768px) {
+      .complaint-container {
+        padding: 20px;
+        margin: 0 15px;
+      }
+    }
+
+    /* Custom select styling */
+    .custom-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background-color: #fff;
+      border: 1px solid #ced4da;
+      border-radius: 10px;
+      padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    }
+            /* Navbar Styling */
+            .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            transform: scale(1.05);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+  </style>
 </head>
-<body class="bg-light">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{% url 'User:User_home'%}"><b style="text-transform: uppercase;">Camp_Connect</b> </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav" style="text-transform: uppercase;">
-                        <a class="nav-link active" aria-current="page" href="{% url 'User:User_home'%}">Home</a>
-                        <a class="nav-link active" aria-current="page" href="{% url 'User:view_profile'%}">Profile</a>
-                        <a class="nav-link" href="{% url 'User:view_all_packages'%}">Packages</a>
-                        <a class="nav-link" href="{% url 'User:view_bookings'%}">View-Bookings</a>
-                        <a class="nav-link" href="{% url 'User:submit_complaint'%}">Complaint-File</a>
-                        <a class="nav-link" href="{% url 'User:Index'%}">LOGOUT</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Submit a Complaint</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="complainant_type">Type of Complainant</label>
-                <select class="form-control" id="complainant_type" name="complainant_type" required>
-                    <option value="User">User</option>
-                    <option value="Camp">Camp</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" class="form-control" id="subject" name="subject" required>
-            </div>
-            <div class="form-group">
-                <label for="message">Message</label>
-                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit Complaint</button>
-        </form>
+
+<body>
+     <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+          <a class="navbar-brand" href="{% url 'User:User_home'%}">Camp Connect</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ms-auto">
+                  <li class="nav-item"><a class="nav-link" href="{% url 'User:User_home'%}">Home</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'User:view_profile'%}">Profile</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'User:view_all_packages'%}">Packages</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'User:view_bookings'%}">Bookings</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'User:add_feedback'%}">Feedback</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'User:submit_complaint'%}">Complaint</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'User:Index'%}">Logout</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="complaint-container">
+      <div class="complaint-header">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h2>Submit a Complaint</h2>
+        <p class="text-muted">We take your feedback seriously</p>
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="complainant_type">
+            <i class="fas fa-user-tag mr-2"></i>Type of Complainant
+          </label>
+          <div class="select-wrapper">
+            <select class="form-control custom-select" id="complainant_type" name="complainant_type" required>
+              <option value="User">User</option>
+              <option value="Camp">Camp</option>
+            </select>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">
+            <i class="fas fa-heading mr-2"></i>Subject
+          </label>
+          <input type="text" class="form-control" id="subject" name="subject"
+            placeholder="Brief description of your complaint" required>
+        </div>
+
+        <div class="form-group">
+          <label for="message">
+            <i class="fas fa-comment-dots mr-2"></i>Detailed Message
+          </label>
+          <textarea class="form-control" id="message" name="message" rows="5"
+            placeholder="Provide a detailed explanation of your complaint" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-submit btn-block">
+          <i class="fas fa-paper-plane mr-2"></i>Submit Complaint
+        </button>
+      </form>
     </div>
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <br><br><br><br><br><br>
-    <!-- Footer -->
-<footer class="text-center bg-body-tertiary">
+  </div>
+  <!-- Include Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <br><br><br><br><br><br>
+  <!-- Footer -->
+  <footer class="text-center bg-body-tertiary">
     <!-- Grid container -->
     <div class="container pt-4">
       <!-- Section: Social media -->
       <section class="mb-4">
         <!-- Facebook -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-facebook-f"></i
-        ></a>
-  
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-facebook-f"></i></a>
+
         <!-- Twitter -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-twitter"></i
-        ></a>
-  
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-twitter"></i></a>
+
         <!-- Google -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-google"></i
-        ></a>
-  
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-google"></i></a>
+
         <!-- Instagram -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-instagram"></i
-        ></a>
-  
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-instagram"></i></a>
+
         <!-- Linkedin -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-linkedin"></i
-        ></a>
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-linkedin"></i></a>
         <!-- Github -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-github"></i
-        ></a>
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-github"></i></a>
       </section>
       <!-- Section: Social media -->
     </div>
     <!-- Grid container -->
-  
+
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
       © 2024 Copyright:
@@ -132,4 +268,5 @@
     <!-- Copyright -->
   </footer>
 </body>
+
 </html>

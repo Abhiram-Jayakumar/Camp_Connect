@@ -1,3 +1,6 @@
+{% extends "Camp/base.html"%}
+{% block navbar%}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,54 +10,66 @@
     <!-- Bootstrap CSS -->
     <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h2 {
+            color: #343a40;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #4e73df;
+            color: white;
+            font-weight: bold;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            border: none;
+            transition: background 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
-                    style="text-transform: uppercase;">Camp_Connect</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="text-transform: uppercase;">
-                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
-                    <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
-                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
-                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
-                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
-                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
-                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
-                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h2 class="text-center my-4">Packages for {{ camp.camp_name }}</h2>
-                <ul class="list-group">
+                <div class="list-group">
                     {% for package in packages %}
-                        <li class="list-group-item">
-                            <h4><a href="{% url 'Camp:view_package' package.id %}">{{ package.package_name }}</a></h4>
-                            <p>{{ package.description|truncatewords:20 }}</p>
-                            <p><strong>Price:</strong> ${{ package.price }}</p>
-                            <p><strong>Availability:</strong> {{ package.availability|yesno:"Available,Not Available" }}</p>
-                        </li>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0">
+                                    <a href="{% url 'Camp:view_package' package.id %}" class="text-white text-decoration-none">{{ package.package_name }} <i class="fas fa-pencil-alt"></i> Edit</a>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <p>{{ package.description|truncatewords:20 }}</p>
+                                <p><strong>Price:</strong> ${{ package.price }}</p>
+                                <p><strong>Availability:</strong> {{ package.availability|yesno:"Available,Not Available" }}</p>
+                            </div>
+                        </div>
                     {% endfor %}
-                </ul>
+                </div>
                 <a href="{% url 'Camp:Camp_home' %}" class="btn btn-secondary mt-4">Back to Camp Home</a>
             </div>
         </div>
     </div>
-    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -134,5 +149,16 @@
     </div>
     <!-- Copyright -->
   </footer>
+<script>
+  document.querySelector('.navbar-toggler').addEventListener('click', function () {
+    const content = document.getElementById('navbarToggleExternalContent');
+    if (content.classList.contains('show')) {
+      content.classList.remove('show');
+    } else {
+      content.classList.add('show');
+    }
+  });
+</script>
 </body>
 </html>
+{% endblock navbar%}

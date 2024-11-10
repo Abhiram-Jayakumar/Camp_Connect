@@ -6,66 +6,278 @@
     <title>Gallery for {{ camp.name }}</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #17a2b8;
+            --background-color: #f4f6f9;
+            --text-color: #333;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+
+        .gallery-container {
+            padding: 30px;
+        }
+
+        .gallery-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .gallery-header i {
+            margin-right: 15px;
+            font-size: 2.5rem;
+        }
+
+        .card {
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
         .card-img-top {
             object-fit: cover;
-            height: 200px;
+            height: 250px;
+            transition: transform 0.3s ease;
         }
+
+        .card:hover .card-img-top {
+            transform: scale(1.1);
+        }
+
         .card-body {
             text-align: center;
+            padding: 15px;
+            background-color: var(--card-bg);
         }
-        .gallery-container {
-            padding: 20px;
+
+        .card-title {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .btn-back {
+            background: linear-gradient(to right, var(--primary-color), #218838);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .btn-back i {
+            margin-right: 10px;
+        }
+
+        .empty-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .empty-gallery i {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                padding: 15px;
+            }
+            
+            .card-img-top {
+                height: 200px;
+            }
+        }
+
+        /* Image Modal Styles */
+        .image-modal .modal-content {
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .image-modal .modal-body {
+            padding: 0;
+        }
+
+        .image-modal .modal-body img {
+            width: 100%;
+            height: auto;
+        }
+                /* Navbar Styling */
+                .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            transform: scale(1.05);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
         }
     </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'User:User_home' %}"><b style="text-transform: uppercase;">Camp_Connect</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'User:User_home'%}">Camp Connect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="text-transform: uppercase;">
-                    <a class="nav-link" href="{% url 'User:User_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'User:view_profile' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'User:view_all_packages' %}">Packages</a>
-                    <a class="nav-link" href="{% url 'User:view_bookings' %}">View-Bookings</a>
-                    <a class="nav-link" href="{% url 'User:submit_complaint' %}">Complaint-File</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
-                </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:User_home'%}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_profile'%}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_all_packages'%}">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_bookings'%}">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:add_feedback'%}">Feedback</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:submit_complaint'%}">Complaint</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:Index'%}">Logout</a></li>
+                </ul>
             </div>
         </div>
-    </nav>
-    
-    <div class="container gallery-container mt-4">
-        <h1 class="mb-4">Gallery for {{ camp.camp_name }}</h1>
+    </nav>    
+    <div class="container gallery-container">
+        <div class="gallery-header">
+            <i class="fas fa-images"></i>
+            <h1>Gallery of {{ camp.camp_name }}</h1>
+        </div>
         
         <div class="row">
             {% for image in images %}
                 <div class="col-md-4 mb-4">
-                    <div class="card">
+                    <div class="card" data-toggle="modal" data-target="#imageModal{{ forloop.counter }}">
                         <img src="{{ image.image.url }}" class="card-img-top" alt="Image">
                         <div class="card-body">
                             <h5 class="card-title">Image {{ forloop.counter }}</h5>
                             <p class="card-text">{{ image.description }}</p>
                         </div>
                     </div>
+
+                    <!-- Image Modal -->
+                    <div class="modal fade image-modal" id="imageModal{{ forloop.counter }}" tabindex="-1" role="dialog">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <img src="{{ image.image.url }}" alt="Full Image">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             {% empty %}
                 <div class="col-12">
-                    <div class="alert alert-info" role="alert">
-                        No images available in this gallery.
+                    <div class="empty-gallery text-center">
+                        <i class="fas fa-image"></i>
+                        <h3>No Images Available</h3>
+                        <p class="text-muted">This gallery is currently empty.</p>
                     </div>
                 </div>
             {% endfor %}
         </div>
         
-        <a href="{% url 'User:view_all_packages' %}" class="btn btn-primary mt-4">Back to All Packages</a>
+        
     </div>
-    
+      <!-- Footer -->
+  <footer class="text-center bg-body-tertiary">
+    <!-- Grid container -->
+    <div class="container pt-4">
+      <!-- Section: Social media -->
+      <section class="mb-4">
+        <!-- Facebook -->
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-facebook-f"></i></a>
+
+        <!-- Twitter -->
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-twitter"></i></a>
+
+        <!-- Google -->
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-google"></i></a>
+
+        <!-- Instagram -->
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-instagram"></i></a>
+
+        <!-- Linkedin -->
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-linkedin"></i></a>
+        <!-- Github -->
+        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+          data-mdb-ripple-color="dark"><i class="fab fa-github"></i></a>
+      </section>
+      <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2024 Copyright:
+      <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>

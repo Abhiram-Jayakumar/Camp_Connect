@@ -1,224 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User_Home</title>
-  <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camp Connect - Your Adventure Starts Here</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #27ae60;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+            letter-spacing: 1px;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.7) !important;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            transform: scale(1.05);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background-color: var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(44,62,80,0.9), rgba(52,152,219,0.8)),
+                        url('https://i.postimg.cc/3wLxJ1xX/traveling-camping-composition-1284-40564.avif');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 150px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-section p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Card Styling */
+        .card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-img-top {
+            transform: scale(1.1);
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 0;
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary-color);
+        }
+    </style>
 </head>
-
 <body>
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'User:User_home'%}"><b style="text-transform: uppercase;">Camp_Connect</b>
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav" style="text-transform: uppercase;">
-          <a class="nav-link active" aria-current="page" href="{% url 'User:User_home'%}">Home</a>
-          <a class="nav-link active" aria-current="page" href="{% url 'User:view_profile'%}">Profile</a>
-          <a class="nav-link" href="{% url 'User:view_all_packages'%}">Packages</a>
-          <a class="nav-link" href="{% url 'User:view_bookings'%}">View-Bookings</a>
-          <a class="nav-link" href="{% url 'User:add_feedback' %}">Add-Feedback</a>
-          <a class="nav-link" href="{% url 'User:submit_complaint'%}">Complaint-File</a>
-          <a class="nav-link" href="{% url 'User:Index'%}">LOGOUT</a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'User:User_home'%}">Camp Connect</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:User_home'%}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_profile'%}">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_all_packages'%}">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_bookings'%}">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:add_feedback'%}">Feedback</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:submit_complaint'%}">Complaint</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:Index'%}">Logout</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container hero-content">
+            <h1>Discover Your Next Adventure</h1>
+            <p>Explore breathtaking destinations, create unforgettable memories, and connect with nature like never before.</p>
+        </div>
     </div>
-  </nav>
 
-  <!-- carousal -->
-  <div id="carouselExampleDark" class="carousel carousel-dark slide">
-    <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-        aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    <!-- Featured Packages -->
+    <div class="container py-5">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="https://i.postimg.cc/3wLxJ1xX/traveling-camping-composition-1284-40564.avif" class="card-img-top" alt="Camp Package">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Camp Connect Experiences</h5>
+                        <p class="card-text">Discover exclusive camping packages tailored for adventure seekers.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="https://i.postimg.cc/vm54Yf6X/hand-drawn-summer-camp-instagram-post-23-2149769102.avif" class="card-img-top" alt="Explore Packages">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Explore Destinations</h5>
+                        <p class="card-text">Choose from a wide variety of breathtaking camping destinations.</p>
+                    </div>
+                </div>
+            </div>
+          </div >
     </div>
-    <div class="carousel-inner">
-      <div class="carousel-item active" data-bs-interval="10000">
-        <img src="https://i.postimg.cc/3wLxJ1xX/traveling-camping-composition-1284-40564.avif" style="height: 750px;"
-          class="d-block w-100 " alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>USER - HOME PAGE</h1>
-          <p>WELCOME USER TO CAMP_CONNECT</p>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <p>&copy; 2023 Camp Connect. All Rights Reserved</p>
+        <div class="social-icons">
+            <a href="#" class="btn"><i class="fab fa-facebook"></i></a>
+            <a href="#" class="btn"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="btn"><i class="fab fa-instagram"></i></a>
         </div>
-      </div>
-      <div class="carousel-item" data-bs-interval="2000">
-        <img src="https://i.postimg.cc/vm54Yf6X/hand-drawn-summer-camp-instagram-post-23-2149769102.avif"
-          style="height: 750px;" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>USER - HOME PAGE</h1>
-          <p>WELCOME USER TO CAMP_CONNECT</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="https://i.postimg.cc/GtWKyvqt/camping-tent-wooden-chairs-surrounded-600nw-2471432783.webp"
-          style="height: 750px;" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>USER - HOME PAGE</h1>
-          <p>WELCOME USER TO CAMP_CONNECT</p>
-        </div>
-      </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-  </div>
+    </footer>
 
-
-  <!-- Scrollspy -->
-
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-4">
-        <div id="list-example" class="list-group">
-          <a class="list-group-item list-group-item-action" href="#list-item-1">Camp Preparation</a>
-          <a class="list-group-item list-group-item-action" href="#list-item-2">Camping Gear</a>
-          <a class="list-group-item list-group-item-action" href="#list-item-3">Safety Tips</a>
-          <a class="list-group-item list-group-item-action" href="#list-item-4">Camp Activities</a>
-        </div>
-      </div>
-      <div class="col-8">
-        <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" class="scrollspy-example"
-          tabindex="0">
-          <h4 id="list-item-1">Camp Preparation</h4>
-          <p>Preparing for a camping trip involves planning ahead to ensure a safe and enjoyable experience. Start by
-            selecting the right campsite based on your preferences and the activities you want to participate in. Check
-            the weather forecast and prepare accordingly, including packing appropriate clothing and gear. Make sure to
-            inform someone about your plans and expected return time.</p>
-
-          <h4 id="list-item-2">Camping Gear</h4>
-          <p>Proper camping gear is essential for comfort and safety. Key items include a tent, sleeping bag, and
-            sleeping pad. Make sure your tent is waterproof and suitable for the weather conditions. Bring a portable
-            stove or campfire equipment for cooking, and pack essential items like a first-aid kit, flashlight, and
-            multi-tool. Don’t forget to bring plenty of food and water, or a means to purify water if necessary.</p>
-
-          <h4 id="list-item-3">Safety Tips</h4>
-          <p>Safety is a top priority while camping. Follow these tips to stay safe: always follow fire safety rules,
-            including keeping fires contained and fully extinguished when done. Be aware of wildlife and store food
-            securely to avoid attracting animals. Know the symptoms of common outdoor hazards like heatstroke and
-            hypothermia, and be prepared to handle emergencies. Carry a map and compass or GPS device, and ensure you
-            know the location of the nearest help if needed.</p>
-
-          <h4 id="list-item-4">Camp Activities</h4>
-          <p>Camping offers a variety of activities for everyone. Explore hiking trails and enjoy nature walks to
-            experience the beauty of your surroundings. Consider activities like fishing, swimming, or bird-watching,
-            depending on the location. Campfire activities like storytelling, singing, and marshmallow roasting can
-            enhance the camping experience. Plan activities that suit your group’s interests and ensure everyone has a
-            memorable time.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- grid card -->
-  <div class="container">
-    <div class="row row-cols-1 row-cols-md-2 g-4">
-      <div class="col">
-        <div class="card">
-          <img src="https://i.postimg.cc/3wLxJ1xX/traveling-camping-composition-1284-40564.avif"
-            style=" height: 500px ;" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Camp_connect</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-              content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="https://i.postimg.cc/vm54Yf6X/hand-drawn-summer-camp-instagram-post-23-2149769102.avif"
-            style=" height: 500px ;" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Camp_connect</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-              content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="https://i.postimg.cc/GtWKyvqt/camping-tent-wooden-chairs-surrounded-600nw-2471432783.webp"
-            style=" height: 500px ;" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Camp_connect</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-              content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="https://i.postimg.cc/3NLQpXRg/gradient-summer-camp-poster-template-23-2149424750.avif"
-            style=" height: 500px ;" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">Camp_connect</h5>
-            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional
-              content. This content is a little bit longer.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="text-center bg-body-tertiary">
-    <!-- Grid container -->
-    <div class="container pt-4">
-      <!-- Section: Social media -->
-      <section class="mb-4">
-        <!-- Facebook -->
-        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
-          data-mdb-ripple-color="dark"><i class="fab fa-facebook-f"></i></a>
-
-        <!-- Twitter -->
-        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
-          data-mdb-ripple-color="dark"><i class="fab fa-twitter"></i></a>
-
-        <!-- Google -->
-        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
-          data-mdb-ripple-color="dark"><i class="fab fa-google"></i></a>
-
-        <!-- Instagram -->
-        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
-          data-mdb-ripple-color="dark"><i class="fab fa-instagram"></i></a>
-
-        <!-- Linkedin -->
-        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
-          data-mdb-ripple-color="dark"><i class="fab fa-linkedin"></i></a>
-        <!-- Github -->
-        <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
-          data-mdb-ripple-color="dark"><i class="fab fa-github"></i></a>
-      </section>
-      <!-- Section: Social media -->
-    </div>
-    <!-- Grid container -->
-
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2024 Copyright:
-      <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
-  <!-- Include Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap JS and FontAwesome -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-IS4NlrqQiyN+5S7/olcOJN+UwVqCZOkTZnlffFCJ0V3MkXJut/7iUoz5T3z2pBlr" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-JoifKuOZgQ9lmFS9+FP8fQ+gW+ZOhKw0e3n9y+OPPBd5q8hhxrloPVHSM1jRocDq" crossorigin="anonymous"></script>
 </body>
-
 </html>

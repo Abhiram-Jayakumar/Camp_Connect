@@ -5,41 +5,93 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complaints List</title>
     <!-- Include Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+    <style>
+      :root {
+            --primary-color: #4e73df;
+            --secondary-color: #224abe;
+            --light-bg: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #343a40;
+            margin-bottom: 30px;
+        }
+
+        .table th, .table td {
+            vertical-align: middle;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn i {
+            margin-right: 5px;
+        }
+
+        .text-success {
+            font-weight: bold;
+        }
+
+        .text-danger {
+            font-weight: bold;
+        }
+        .navbar {
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    }
+
+    .navbar-nav .nav-link {
+      color: rgb(252, 252, 255) !important;
+      margin: 0 10px;
+      transition: color 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: #f8fafc !important;
+    }
+    </style>
 </head>
 <body class="bg-light">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'Admin:Admin_home' %}">
-                <img src="https://i.postimg.cc/KcN5BZ7c/image.png" alt="Logo" width="50" height="25" class="d-inline-block align-text-top">
-                <b><i>CAMP-CONNECT</i></b>
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <div class="navbar-nav ms-auto">
-                    <a class="nav-link active" aria-current="page" href="{% url 'Admin:Admin_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'Admin:view_registered_Camp'%}">view_registered_camp</a>
-                    <a class="nav-link" href="{% url 'Admin:complaint_list'%}">complaint_list</a>
-                    <a class="nav-link" href="{% url 'Admin:Graph'%}">GRAPH</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}"><strong>LOGOUT</strong></a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="#">Admin Dashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="navbar-nav ms-auto">
+              <a class="nav-link active" aria-current="page" href="{% url 'Admin:Admin_home' %}">Home</a>
+              <a class="nav-link" href="{% url 'Admin:view_registered_Camp'%}">View Registered Camp</a>
+              <a class="nav-link" href="{% url 'Admin:complaint_list'%}">Complaint List</a>
+              <a class="nav-link" href="{% url 'Admin:Graph'%}">GRAPH</a>
+              <a class="nav-link" href="{% url 'User:Index' %}"><strong>LOGOUT</strong></a>
+          </div>
+      </div>
+  </div>
+</nav>
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Complaints List</h2>
-        <table class="table table-bordered">
-          <thead class="thead-dark">
+        <h2 class="text-center mb-4"><i class="fas fa-comments"></i> Complaints List</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
                 <tr>
                     <th>Type</th>
-                    <th>Complainant ID</th>
                     <th>Subject</th>
                     <th>Message</th>
                     <th>Date Submitted</th>
@@ -51,20 +103,21 @@
                 {% for complaint in complaints %}
                 <tr>
                     <td>{{ complaint.get_complainant_type_display }}</td>
-                    <td>{{ complaint.complainant_id }}</td>
                     <td>{{ complaint.subject }}</td>
                     <td>{{ complaint.message }}</td>
                     <td>{{ complaint.date_submitted|date:"d M Y, H:i" }}</td>
                     <td>
                         {% if complaint.resolved %}
-                            <span class="text-success">Resolved</span>
+                            <span class="text-success"><i class="fas fa-check-circle"></i> Resolved</span>
                         {% else %}
-                            <span class="text-danger">Pending</span>
+                            <span class="text-danger"><i class="fas fa-exclamation-circle"></i> Pending</span>
                         {% endif %}
                     </td>
                     <td>
                         {% if not complaint.resolved %}
-                            <a href="{% url 'Admin:resolve_complaint' complaint.id %}" class="btn btn-success">Mark as Resolved</a>
+                            <a href="{% url 'Admin:resolve_complaint' complaint.id %}" class="btn btn-success">
+                                <i class="fas fa-check"></i> Mark as Resolved
+                            </a>
                         {% endif %}
                     </td>
                 </tr>
@@ -72,87 +125,6 @@
             </tbody>
         </table>
     </div>
-    <br><br><br><br><br><br><br><br><br>
-    <br><br><br>
-    <!-- Footer -->
- <footer class="text-center bg-body-tertiary">
-    <!-- Grid container -->
-    <div class="container pt-4">
-      <!-- Section: Social media -->
-      <section class="mb-4">
-        <!-- Facebook -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-facebook-f"></i
-        ></a>
-  
-        <!-- Twitter -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-twitter"></i
-        ></a>
-  
-        <!-- Google -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-google"></i
-        ></a>
-  
-        <!-- Instagram -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-instagram"></i
-        ></a>
-  
-        <!-- Linkedin -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-linkedin"></i
-        ></a>
-        <!-- Github -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-github"></i
-        ></a>
-      </section>
-      <!-- Section: Social media -->
-    </div>
-    <!-- Grid container -->
-  
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2024 Copyright:
-      <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
-    <!-- Include Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+   
 </body>
 </html>

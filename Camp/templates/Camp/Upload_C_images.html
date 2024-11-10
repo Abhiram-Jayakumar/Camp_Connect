@@ -1,3 +1,6 @@
+{% extends "Camp/base.html"%}
+{% block navbar%}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,60 +9,70 @@
     <title>Upload Images</title>
     <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h2 {
+            color: #343a40;
+            text-align: center;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        .form-control:focus {
+            border-color: #4e73df;
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #4e73df, #224abe);
+            border: none;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(to right, #224abe, #4e73df);
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
-                    style="text-transform: uppercase;">Camp_Connect</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="text-transform: uppercase;">
-                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
-                    <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
-                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
-                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
-                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
-                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
-                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
-                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <div class="container mt-5">
         <h2 class="mb-4">Upload Images for {{ camp.camp_name }}</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             
             <div class="form-group">
-                <label for="images">Select Images:</label>
+                <label for="images">
+                    <i class="fas fa-image me-2"></i>Select Images:
+                </label>
                 <input type="file" id="images" name="images" class="form-control-file" multiple required>
             </div>
             
             <div class="form-group">
-                <label for="description">Description (optional):</label>
+                <label for="description">
+                    <i class="fas fa-comment-dots me-2"></i>Description (optional):
+                </label>
                 <input type="text" id="description" name="description" class="form-control">
             </div>
             
-            <button type="submit" class="btn btn-primary">Upload Images</button>
+            <button type="submit" class="btn btn-primary btn-block">Upload Images</button>
         </form>
     </div>
-    <br><br><br><br><br><br><br><br><br><br>
-
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Footer -->
+   
+   <br><br><br><br><br> <!-- Footer -->
 <footer class="text-center bg-body-tertiary">
     <!-- Grid container -->
     <div class="container pt-4">
@@ -135,5 +148,16 @@
     </div>
     <!-- Copyright -->
   </footer>
+<script>
+  document.querySelector('.navbar-toggler').addEventListener('click', function () {
+    const content = document.getElementById('navbarToggleExternalContent');
+    if (content.classList.contains('show')) {
+      content.classList.remove('show');
+    } else {
+      content.classList.add('show');
+    }
+  });
+</script>
 </body>
 </html>
+{% endblock navbar%}

@@ -5,135 +5,233 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --primary-color: #28a745;
+            --secondary-color: #17a2b8;
+            --accent-color: #ffc107;
+            --background-color: #f4f6f9;
+            --text-color: #333;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+        }
+
+        .payment-section {
+            background: linear-gradient(135deg, rgba(40,167,69,0.1), rgba(23,162,184,0.1));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .booking-bill-card, .payment-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .booking-bill-card:hover, .payment-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .facilities-list .list-group-item {
+            transition: background-color 0.3s ease;
+        }
+
+        .facilities-list .list-group-item:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .payment-method {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .payment-method img {
+            max-width: 50px;
+            margin-bottom: 10px;
+        }
+
+        .btn-custom {
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .btn-pay {
+            background: linear-gradient(to right, #28a745, #218838);
+            border: none;
+            color: white;
+        }
+
+        .card-input {
+            background-color: #f1f3f5;
+            border: none;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .payment-section {
+                padding: 20px 0;
+            }
+            .row {
+                flex-direction: column;
+            }
+            .col-md-6 {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
 </head>
-<body class="bg-light">
-    <section class="p-4 p-md-5" style="
-    background-image: url(https://mdbcdn.b-cdn.net/img/Photos/Others/background3.webp);
-    background-size: cover;
-    background-position: center;
-  ">
-  <div class="container">
-    <div class="row d-flex justify-content-center">
-      <!-- Left side: Booking Bill -->
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-header text-center">
-            <h3>Booking Bill</h3>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Package Name: {{ booking.package.package_name }}</h4>
-            <hr>
+<body>
+    <section class="payment-section">
+        <div class="container">
             <div class="row">
-              <div class="col-8"><strong>Package Price:</strong></div>
-              <div class="col-4 text-right">${{ booking.package.price }}</div>
+                <!-- Left side: Booking Bill -->
+                <div class="col-md-6">
+                    <div class="card booking-bill-card">
+                        <div class="card-header text-center">
+                            <h3><i class="fas fa-receipt mr-3"></i>Booking Bill</h3>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title text-primary">
+                                <i class="fas fa-camping mr-3"></i>
+                                {{ booking.package.package_name }}
+                            </h4>
+                            <hr>
+                            <div class="row">
+                                <div class="col-8"><strong>Package Price:</strong></div>
+                                <div class="col-4 text-right">${{ booking.package.price }}</div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-8"><strong>Number of Persons:</strong></div>
+                                <div class="col-4 text-right">{{ booking.number_of_persons }}</div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-8"><strong>Facilities:</strong></div>
+                            </div>
+                            <ul class="list-group list-group-flush facilities-list">
+                                {% for facility in booking.facilities.all %}
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <i class="fas fa-check-circle text-success mr-2"></i>
+                                    {{ facility.facility_name }}
+                                    <span class="badge bg-primary">+${{ facility.price_per_item }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            <hr>
+                            <div class="row">
+                                <div class="col-8"><strong>Total Amount:</strong></div>
+                                <div class="col-4 text-right text-success"><strong>${{ booking.total_price }}</strong></div>
+                            </div>
+                            <hr>
+                            <p><strong>Booking Date:</strong> {{ booking.booking_date|date:"d M Y, H:i" }}</p>
+                            <div class="d-flex justify-content-between">
+                                <form action="{% url 'User:process_payment' booking.id %}" method="POST" onsubmit="paymentSuccess()">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-custom btn-pay">
+                                        <i class="fas fa-credit-card mr-2"></i>Pay Now
+                                    </button>
+                                </form>
+                                <a href="{% url 'User:view_bookings' %}" class="btn btn-custom btn-secondary">
+                                    <i class="fas fa-arrow-left mr-2"></i>Back to Bookings
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right side: Payment Card Details -->
+                <div class="col-md-6">
+                    <div class="card payment-card">
+                        <div class="card-body">
+                            <div class="text-center mb-4">
+                                <h3><i class="fas fa-credit-card mr-3"></i>Payment Details</h3>
+                                <h6 class="text-muted">Select Payment Method</h6>
+                            </div>
+
+                            <div class="payment-methods">
+                                <div class="payment-method">
+                                    <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="Mastercard">
+                                    <p>Mastercard</p>
+                                </div>
+                                <div class="payment-method">
+                                    <img src ="https://img.icons8.com/color/48/000000/visa.png" alt="Visa">
+                                    <p>Visa</p>
+                                </div>
+                            </div>
+
+                            <p class="fw-bold mb-4">Add New Card:</p>
+
+                            <div class="form-outline mb-4">
+                                <input type="text" id="cardholderName" class="form-control card-input" placeholder="Cardholder's Name" required />
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-7">
+                                    <div class="form-outline">
+                                        <input type="text" id="cardNumber" class="form-control card-input" placeholder="Card Number" required />
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-outline">
+                                        <input type="text" id="expiryDate" class="form-control card-input" placeholder="MM/YYYY" required />
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-outline">
+                                        <input type="text" id="cvv" class="form-control card-input" placeholder="CVV" required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-success btn-lg btn-block">Add Card</button>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <hr>
-            <div class="row">
-              <div class="col-8"><strong>Number of Persons:</strong></div>
-              <div class="col-4 text-right">{{ booking.number_of_persons }}</div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-8"><strong>Facilities:</strong></div>
-            </div>
-            <ul class="list-group list-group-flush">
-              {% for facility in booking.facilities.all %}
-              <li class="list-group-item d-flex justify-content-between align-items-center">
-                {{ facility.facility_name }}
-                <span>${{ facility.price_per_item }}</span>
-              </li>
-              {% endfor %}
-            </ul>
-            <hr>
-            <div class="row">
-              <div class="col-8"><strong>Total Amount:</strong></div>
-              <div class="col-4 text-right"><strong>${{ booking.total_price }}</strong></div>
-            </div>
-            <hr>
-            <p><strong>Booking Date:</strong> {{ booking.booking_date|date:"d M Y, H:i" }}</p>
-            <form action="{% url 'User:process_payment' booking.id %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-success  mt-3">Pay Now</button>
-              <a href="{% url 'User:view_bookings' %}" class="btn btn-primary mt-3">Back to Bookings</a>
-            </form>
-          </div>
         </div>
-      </div>
-
-      <!-- Right side: Payment Card Details -->
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <div class="text-center mb-4">
-              <h3>Settings</h3>
-              <h6>Payment</h6>
-            </div>
-
-            <p class="fw-bold mb-4 pb-2">Saved cards:</p>
-
-            <div class="d-flex flex-row align-items-center mb-4 pb-1">
-              <img class="img-fluid" src="https://img.icons8.com/color/48/000000/mastercard-logo.png" />
-              <div class="flex-fill mx-3">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="text" id="formControlLgXc" class="form-control form-control-lg"
-                    value="**** **** **** 3193" />
-                  <label class="form-label" for="formControlLgXc">Card Number</label>
-                </div>
-              </div>
-              <a href="#!">Remove card</a>
-            </div>
-
-            <div class="d-flex flex-row align-items-center mb-4 pb-1">
-              <img class="img-fluid" src="https://img.icons8.com/color/48/000000/visa.png" />
-              <div class="flex-fill mx-3">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="text" id="formControlLgXs" class="form-control form-control-lg"
-                    value="**** **** **** 4296" />
-                  <label class="form-label" for="formControlLgXs">Card Number</label>
-                </div>
-              </div>
-              <a href="#!">Remove card</a>
-            </div>
-
-            <p class="fw-bold mb-4">Add new card:</p>
-
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="text" id="formControlLgXsd" class="form-control form-control-lg"
-                value="Anna Doe" />
-              <label class="form-label" for="formControlLgXsd">Cardholder's Name</label>
-            </div>
-
-            <div class="row mb-4">
-              <div class="col-7">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="text" id="formControlLgXM" class="form-control form-control-lg"
-                    value="1234 5678 1234 5678" />
-                  <label class="form-label" for="formControlLgXM">Card Number</label>
-                </div>
-              </div>
-              <div class="col-3">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="password" id="formControlLgExpk" class="form-control form-control-lg"
-                    placeholder="MM/YYYY" />
-                  <label class="form-label" for="formControlLgExpk">Expire</label>
-                </div>
-              </div>
-              <div class="col-2">
-                <div data-mdb-input-init class="form-outline">
-                  <input type="password" id="formControlLgcvv" class="form-control form-control-lg"
-                    placeholder="Cvv" />
-                  <label class="form-label" for="formControlLgcvv">Cvv</label>
-                </div>
-              </div>
-            </div>
-
-            <button data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-lg btn-block">Add card</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  </section>
+    </section>
+    <script>
+      function paymentSuccess() {
+          alert("Payment Successful!");
+      }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

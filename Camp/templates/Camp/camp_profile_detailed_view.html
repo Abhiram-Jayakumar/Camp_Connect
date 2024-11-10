@@ -1,67 +1,223 @@
+{% extends "Camp/base.html"%}
+{% block navbar%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camp Profile</title>
-    <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #224abe;
+            --light-background: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--light-background);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .camp-profile-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 15px;
+        }
+
+        .camp-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .camp-header i {
+            font-size: 2.5rem;
+            margin-right: 15px;
+        }
+
+        .camp-header h1 {
+           
+            font-weight: 600;
+        }
+
+        .profile-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .profile-card .card-body {
+            padding: 30px;
+        }
+
+        .profile-label {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .profile-detail {
+            color: #495057;
+        }
+
+        .social-media-card {
+            background-color: #f4f6f9;
+        }
+
+        .social-media-icons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+        }
+
+        .social-media-icons a {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-media-icons a:hover {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .btn-edit-profile {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit-profile:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(50,50,93,0.1), 0 3px 6px rgba(0,0,0,0.08);
+        }
+
+        @media (max-width: 768px) {
+            .camp-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .camp-header i {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
-                    style="text-transform: uppercase;">Camp_Connect</b></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav" style="text-transform: uppercase;">
-                    <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
-                    <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
-                    <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
-                    <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
-                    <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
-                    <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
-                    <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
-                    <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
-                    <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
-                    <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
+    <div class="container camp-profile-container">
+        <div class="camp-header">
+            <i class="fas fa-campground"></i>
+            <h1>{{ camp_profile.camp_name }}</h1>
+        </div>
+
+        <div class="card profile-card">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p>
+                            <span class="profile-label"><i class="fas fa-info-circle mr-2"></i>Description:</span>
+                            <span class="profile-detail">{{ camp_profile.description }}</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <span class="profile-label"><i class="fas fa-tags mr-2"></i>Camp Type:</span>
+                            <span class="profile-detail">{{ camp_profile.get_camp_type_display }}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p>
+                            <span class="profile-label"><i class="fas fa-clock mr-2"></i>Operating Hours:</span>
+                            <span class="profile-detail">{{ camp_profile.operating_hours }}</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <span class="profile-label"><i class="fas fa-phone mr-2"></i>Contact Phone:</span>
+                            <span class="profile-detail">{{ camp_profile.contact_phone }}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p>
+                            <span class="profile-label"><i class="fas fa-envelope mr-2"></i>Contact Email:</span>
+                            <span class="profile-detail">{{ camp_profile.contact_email }}</span>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <span class="profile-label"><i class="fas fa-map-marker-alt mr-2"></i>Location:</span>
+                            <span class="profile-detail">{{ camp_profile.location }}</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <p>
+                            <span class="profile-label"><i class="fas fa-address-book mr-2"></i>Address:</span>
+                            <span class="profile-detail">{{ camp_profile.address }}</span>
+                        </p>
+                        <p>
+                            <span class="profile-label"><i class="fas fa-dollar-sign mr-2"></i>Pricing Info:</span>
+                            <span class="profile-detail">{{ camp_profile.pricing_info }}</span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </nav>
 
-    <div class="container mt-5">
-        <h1 class="mb-4">{{ camp_profile.camp_name }}</h1>
-        <div class="card p-4 mb-4">
+        <div class="card social-media-card mb-4">
             <div class="card-body">
-                <p><strong>Description:</strong> {{ camp_profile.description }}</p>
-                <p><strong>Camp Type:</strong> {{ camp_profile.get_camp_type_display }}</p>
-                <p><strong>Operating Hours:</strong> {{ camp_profile.operating_hours }}</p>
-                <p><strong>Contact Phone:</strong> {{ camp_profile.contact_phone }}</p>
-                <p><strong>Contact Email:</strong> {{ camp_profile.contact_email }}</p>
-                <p><strong>Address:</strong> {{ camp_profile.address }}</p>
-                <p><strong>Location:</strong> {{ camp_profile.location }}</p>
-                <p><strong>Pricing Info:</strong> {{ camp_profile.pricing_info }}</p>
+                <h3 class="text-center mb-4">Social Media</h3>
+                <div class="social-media-icons">
+                    {% if camp_profile.social_media_facebook %}
+                    <a href="{{ camp_profile.social_media_facebook }}" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if camp_profile.social_media_twitter %}
+                    <a href="{{ camp_profile.social_media_twitter }}" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if camp_profile.social_media_instagram %}
+                    <a href="{{ camp_profile.social_media_instagram }}" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
-        <h3 class="mb-3">Social Media</h3>
-        <div class="card p-3 mb-4">
-            <div class="card-body">
-                <p><strong>Facebook:</strong> <a href="{{ camp_profile.social_media_facebook }}" target="_blank">{{ camp_profile.social_media_facebook }}</a></p>
-                <p><strong>Twitter:</strong> <a href="{{ camp_profile.social_media_twitter }}" target="_blank">{{ camp_profile.social_media_twitter }}</a></p>
-                <p><strong>Instagram:</strong> <a href="{{ camp_profile.social_media_instagram }}" target="_blank">{{ camp_profile.social_media_instagram }}</a></p>
-            </div>
-        </div>
-
-        <a href="{% url 'Camp:camp_profile_update' %}" class="btn btn-primary">Edit Profile</a>
+        <a href="{% url 'Camp:camp_profile_update' %}" class="btn btn-edit-profile btn-block">Edit Profile</a>
     </div>
-
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
@@ -142,5 +298,16 @@
     </div>
     <!-- Copyright -->
   </footer>
+<script>
+  document.querySelector('.navbar-toggler').addEventListener('click', function () {
+    const content = document.getElementById('navbarToggleExternalContent');
+    if (content.classList.contains('show')) {
+      content.classList.remove('show');
+    } else {
+      content.classList.add('show');
+    }
+  });
+</script>
 </body>
 </html>
+{% endblock navbar%}

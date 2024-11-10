@@ -1,5 +1,9 @@
+{% extends "Camp/base.html"%}
+{% block navbar%}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,170 +11,218 @@
     <!-- Include Bootstrap CSS -->
     <script src="https://kit.fontawesome.com/4c235e51ee.js" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'Camp:Camp_home' %}"><b
-                style="text-transform: uppercase;">Camp_Connect</b></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav" style="text-transform: uppercase;">
-                <a class="nav-link" href="{% url 'Camp:Camp_home' %}">Home</a>
-                <a class="nav-link" href="{% url 'Camp:camp_profile' %}">Profile</a>
-                <a class="nav-link" href="{% url 'Camp:Add_camp_profile'%}">Add_camp_profile</a>
-                <a class="nav-link" href="{% url 'Camp:profile_view_detailed'%}">profile_view_detailed</a>
-                <a class="nav-link" href="{% url 'Camp:add_facility'%}">Add-Facility</a>
-                <a class="nav-link" href="{% url 'Camp:add_package'%}">Add-package</a>
-                <a class="nav-link" href="{% url 'Camp:upload_images'%}">Upload_images</a>
-                <a class="nav-link" href="{% url 'Camp:view_all_packages' %}">View-Added-Packages</a>
-                <a class="nav-link" href="{% url 'Camp:camper_view_bookings' %}">View-Bookings</a>
-                <a class="nav-link" href="{% url 'Camp:submit_complaint' %}">Complaint-File</a>
-                <a class="nav-link" href="{% url 'User:Index' %}">LOGOUT</a>
-            </div>
-        </div>
-    </div>
-</nav>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-<body class="bg-light">
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">Bookings for Your Packages</h2>
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 i {
+            margin-right: 15px;
+            color: #4e73df;
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background: linear-gradient(to right, #4e73df, #224abe);
+            color: white;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            padding: 15px;
+        }
+
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #4e73df, #224abe);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary i {
+            margin-right: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        .text-success,
+        .text-danger {
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .text-success i,
+        .text-danger i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-center mb-4">
+            <i class="fas fa-receipt"></i>
+            Bookings for Your Packages
+        </h2>
 
         {% if bookings %}
-            <div class="table-responsive">
-                <table class="table table-bordered">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>User</th>
-                            <th>PHN-Number</th>
-                            <th>Email</th>
-                            <th>Package</th>
-                            <th>Number of Persons</th>
-                            <th>Facilities & Price/Item</th>
-                            <th>Total Price</th>
-                            <th>Booking Date</th>
-                            <th>Payment Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for booking in bookings %}
-                            <tr>
-                                <td>{{ booking.user.name }}</td>
-                                <td>{{ booking.user.phone_number }}</td>
-                                <td>{{ booking.user.email }}</td>
-                                <td>{{ booking.package.package_name }}</td>
-                                <td>{{ booking.number_of_persons }}</td>
-                                <td>
-                                    {% for facility in booking.facilities.all %}
-                                        {{ facility.facility_name }} (${{ facility.price_per_item }}),
-                                    {% endfor %}
-                                </td>
-                                <td>${{ booking.total_price }}</td>
-                                <td>{{ booking.booking_date|date:"d M Y, H:i" }}</td>
-                                <td>
-                                    {% if booking.payment.payment_status == 'Completed' %}
-                                        <span class="text-success">Paid</span>
-                                    {% else %}
-                                        <span class="text-danger">Pending</span>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th><i class="fas fa-user mr-2"></i>User</th>
+                        <th><i class="fas fa-phone mr-2"></i>PHN-Number</th>
+                        <th><i class="fas fa-envelope mr-2"></i>Email</th>
+                        <th><i class="fas fa-campground mr-2"></i>Package</th>
+                        <th><i class="fas fa-users mr-2"></i>Number of Persons</th>
+                        <th><i class="fas fa-concierge-bell mr-2"></i>Facilities & Price/Item</th>
+                        <th><i class="fas fa-dollar-sign mr-2"></i>Total Price</th>
+                        <th><i class="fas fa-calendar-alt mr-2"></i>Booking Date</th>
+                        <th><i class="fas fa-credit-card mr-2"></i>Payment Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.user.name }}</td>
+                        <td>{{ booking.user.phone_number }}</td>
+                        <td>{{ booking.user.email }}</td>
+                        <td>{{ booking.package.package_name }}</td>
+                        <td>{{ booking.number_of_persons }}</td>
+                        <td>
+                            {% for facility in booking.facilities.all %}
+                            {{ facility.facility_name }} (${{ facility.price_per_item }}),
+                            {% endfor %}
+                        </td>
+                        <td>${{ booking.total_price }}</td>
+                        <td>{{ booking.booking_date|date:"d M Y, H:i" }}</td>
+                        <td>
+                            {% if booking.payment.payment_status == 'Completed' %}
+                            <span class="text-success">
+                                <i class="fas fa-check-circle"></i>Paid
+                            </span>
+                            {% else %}
+                            <span class="text-danger">
+                                <i class="fas fa-exclamation-circle"></i>Pending
+                            </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% else %}
-            <p class="text-center">No bookings have been made for your packages yet.</p>
+        <p class="text-center">
+            <i class="fas fa-info-circle text-muted mr-2"></i>
+            No bookings have been made for your packages yet.
+        </p>
         {% endif %}
 
         <div class="text-center mt-4">
-            <a href="{% url 'Camp:Camp_home' %}" class="btn btn-primary">Back to Home</a>
+            <a href="{% url 'Camp:Camp_home' %}" class="btn btn-primary">
+                <i class="fas fa-home mr-2"></i>
+                Back to Home
+            </a>
         </div>
     </div>
-    <br><br><br><br>
-
-    <!-- Include Bootstrap JS and dependencies -->
+<br><br><br><br><br>
+<br><br><br><br><br>
+    <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <!-- Footer -->
-<footer class="text-center bg-body-tertiary">
-    <!-- Grid container -->
-    <div class="container pt-4">
-      <!-- Section: Social media -->
-      <section class="mb-4">
-        <!-- Facebook -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-facebook-f"></i
-        ></a>
-  
-        <!-- Twitter -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-twitter"></i
-        ></a>
-  
-        <!-- Google -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-google"></i
-        ></a>
-  
-        <!-- Instagram -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-instagram"></i
-        ></a>
-  
-        <!-- Linkedin -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-linkedin"></i
-        ></a>
-        <!-- Github -->
-        <a
-          data-mdb-ripple-init
-          class="btn btn-link btn-floating btn-lg text-body m-1"
-          href="#!"
-          role="button"
-          data-mdb-ripple-color="dark"
-          ><i class="fab fa-github"></i
-        ></a>
-      </section>
-      <!-- Section: Social media -->
-    </div>
-    <!-- Grid container -->
-  
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-      © 2024 Copyright:
-      <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
-    </div>
-    <!-- Copyright -->
-  </footer>
+    <footer class="text-center bg-body-tertiary">
+        <!-- Grid container -->
+        <div class="container pt-4">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <!-- Facebook -->
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="fab fa-facebook-f"></i></a>
+
+                <!-- Twitter -->
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="fab fa-twitter"></i></a>
+
+                <!-- Google -->
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="fab fa-google"></i></a>
+
+                <!-- Instagram -->
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="fab fa-instagram"></i></a>
+
+                <!-- Linkedin -->
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="fab fa-linkedin"></i></a>
+                <!-- Github -->
+                <a data-mdb-ripple-init class="btn btn-link btn-floating btn-lg text-body m-1" href="#!" role="button"
+                    data-mdb-ripple-color="dark"><i class="fab fa-github"></i></a>
+            </section>
+            <!-- Section: Social media -->
+        </div>
+        <!-- Grid container -->
+
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2024 Copyright:
+            <a class="text-body" href="www.campconnect.com">Campconnect.com</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <script>
+        document.querySelector('.navbar-toggler').addEventListener('click', function () {
+            const content = document.getElementById('navbarToggleExternalContent');
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+            } else {
+                content.classList.add('show');
+            }
+        });
+    </script>
 </body>
+
 </html>
+{% endblock navbar%}
