@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
+            --primary-color: #0378ed;
             --secondary-color: #3498db;
             --accent-color: #27ae60;
         }
@@ -50,7 +50,7 @@
             height: 2px;
             bottom: -5px;
             left: 50%;
-            background-color: var(--secondary-color);
+            background-color: greenyellow;
             transition: all 0.3s ease;
         }
 
@@ -61,8 +61,8 @@
 
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, rgba(44,62,80,0.9), rgba(52,152,219,0.8)),
-                        url('https://i.postimg.cc/3wLxJ1xX/traveling-camping-composition-1284-40564.avif');
+            background: 
+                        url('https://i.postimg.cc/ncn0V2XZ/pexels-photo-1687845.jpg');
             background-size: cover;
             background-position: center;
             color: white;
@@ -138,19 +138,19 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'User:User_home'%}">Camp Connect</a>
+            <a class="navbar-brand" href="{% url 'User:User_home'%}"><h2><b>Camp Connect</b></h2></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{% url 'User:User_home'%}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_profile'%}">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_all_packages'%}">Packages</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_bookings'%}">Bookings</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'User:add_feedback'%}">Feedback</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'User:submit_complaint'%}">Complaint</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'User:Index'%}">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:User_home'%}"><b>Home</b></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_profile'%}"><b>Profile</b></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_all_packages'%}"><b>Packages</b></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:view_bookings'%}"><b>Bookings</b></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:add_feedback'%}"><b>Feedback</b></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:submit_complaint'%}"><b>Complaint</b></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'User:Index'%}"><b>Logout</b></a></li>
                 </ul>
             </div>
         </div>
@@ -169,7 +169,7 @@
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="card">
-                    <img src="https://i.postimg.cc/3wLxJ1xX/traveling-camping-composition-1284-40564.avif" class="card-img-top" alt="Camp Package">
+                    <img src="https://i.postimg.cc/wx2D2pB8/pexels-photo-1059042.jpg" class="card-img-top" alt="Camp Package" style="height:500px;">
                     <div class="card-body text-center">
                         <h5 class="card-title">Camp Connect Experiences</h5>
                         <p class="card-text">Discover exclusive camping packages tailored for adventure seekers.</p>
@@ -178,7 +178,7 @@
             </div>
             <div class="col-md-6">
                 <div class="card">
-                    <img src="https://i.postimg.cc/vm54Yf6X/hand-drawn-summer-camp-instagram-post-23-2149769102.avif" class="card-img-top" alt="Explore Packages">
+                    <img src="https://i.postimg.cc/mkpzsTcP/pexels-photo-2422483.jpg" class="card-img-top" alt="Explore Packages"style="height:500px;">
                     <div class="card-body text-center">
                         <h5 class="card-title">Explore Destinations</h5>
                         <p class="card-text">Choose from a wide variety of breathtaking camping destinations.</p>
